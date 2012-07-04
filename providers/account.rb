@@ -91,6 +91,15 @@ def user_resource(exec_action)
   # avoid variable scoping issues in resource block
   my_home, my_shell, manage_home = @my_home, @my_shell, @manage_home
 
+  if @create_group
+    r = group new_resource.username do
+      gid new_resource.gid
+      system false
+      action :nothing
+    end
+    r.run_action(exec_action)
+  end
+
   r = user new_resource.username do
     comment   new_resource.comment  if new_resource.comment
     uid       new_resource.uid      if new_resource.uid
