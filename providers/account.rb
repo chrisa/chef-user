@@ -97,7 +97,9 @@ def user_resource(exec_action)
       system false
       action :nothing
     end
-    r.run_action(exec_action)
+    if exec_action == :create || exec_action == :remove
+      r.run_action(exec_action)
+    end
   end
 
   r = user new_resource.username do
